@@ -1,45 +1,292 @@
-[gd_scene load_steps=6 format=3 uid="uid://dtf3qo0e8yvpq"]
+[gd_scene load_steps=31 format=3 uid="uid://dtf3qo0e8yvpq"]
 
+[ext_resource type="Script" path="res://Core/World.gd" id="1_nia64"]
 [ext_resource type="PackedScene" uid="uid://8r1s76gnv6q5" path="res://Object/Player.tscn" id="2_0dhdr"]
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="3_f1qku"]
 [ext_resource type="PackedScene" uid="uid://cyahpjxwphvj1" path="res://Object/Wood.tscn" id="4_m62m2"]
 [ext_resource type="PackedScene" uid="uid://djmxdptog6aot" path="res://Scene/Environment.tscn" id="5_gom0g"]
 [ext_resource type="PackedScene" uid="uid://1go4v6ic3ybv" path="res://Object/BigTree.tscn" id="5_j4lnh"]
+[ext_resource type="PackedScene" uid="uid://bneo5kkjguwgc" path="res://Object/Grass.tscn" id="6_8njxo"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1e4d6"]
+shading_mode = 0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ev1eb"]
+emission_shape = 3
+emission_box_extents = Vector3(20, 1, 20)
+direction = Vector3(0, -1, 0)
+spread = 5.0
+gravity = Vector3(0, -1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_lgbvw"]
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="Gradient" id="Gradient_o8ul2"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5w78i"]
+gradient = SubResource("Gradient_o8ul2")
+width = 8
+height = 32
+fill_from = Vector2(1, 1)
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kopnj"]
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("GradientTexture2D_5w78i")
+texture_filter = 0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fwkd3"]
+emission_shape = 3
+emission_box_extents = Vector3(10, 1, 10)
+direction = Vector3(0, -1, 0)
+spread = 5.0
+gravity = Vector3(0, -1, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_q27ee"]
+size = Vector2(0.025, 0.1)
+
+[sub_resource type="Gradient" id="Gradient_1xucx"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.0534759, 0.374332, 0.395722, 0.449198)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_njoys"]
+gradient = SubResource("Gradient_1xucx")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7ueo"]
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("GradientTexture2D_njoys")
+texture_filter = 0
+
+[sub_resource type="Gradient" id="Gradient_f03ym"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tjt4d"]
+gradient = SubResource("Gradient_f03ym")
+
+[sub_resource type="Curve" id="Curve_360xc"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -0.0314574, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_oqjk3"]
+curve = SubResource("Curve_360xc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1mrx7"]
+direction = Vector3(0, -1, 0)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_oqjk3")
+color_ramp = SubResource("GradientTexture1D_tjt4d")
+sub_emitter_mode = 3
+sub_emitter_amount_at_collision = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vbpdq"]
+flip_faces = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_etgni"]
+bg_color = Color(1, 1, 1, 0)
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1f5q4"]
+bg_color = Color(0.92549, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_mfm1p"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_etgni")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_1f5q4")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1v2x4"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_28vbp"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Theme" id="Theme_mfnmy"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_1v2x4")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_28vbp")
 
 [node name="World" type="Node"]
+script = ExtResource("1_nia64")
 
-[node name="Woods" type="Node3D" parent="."]
+[node name="Location" type="Node3D" parent="."]
 
-[node name="Wood" parent="Woods" instance=ExtResource("4_m62m2")]
+[node name="Woods" type="Node3D" parent="Location"]
+
+[node name="Wood" parent="Location/Woods" instance=ExtResource("4_m62m2")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -3, 0, 0)
 
-[node name="Wood2" parent="Woods" instance=ExtResource("4_m62m2")]
+[node name="Wood2" parent="Location/Woods" instance=ExtResource("4_m62m2")]
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 2, 0, 0)
 
-[node name="Wood3" parent="Woods" instance=ExtResource("4_m62m2")]
+[node name="Wood3" parent="Location/Woods" instance=ExtResource("4_m62m2")]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 3, 0, 2)
 
-[node name="Wood5" parent="Woods" instance=ExtResource("4_m62m2")]
+[node name="Wood5" parent="Location/Woods" instance=ExtResource("4_m62m2")]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, -3)
 
-[node name="Wood6" parent="Woods" instance=ExtResource("4_m62m2")]
+[node name="Wood6" parent="Location/Woods" instance=ExtResource("4_m62m2")]
 transform = Transform3D(0.746139, 0, -0.665791, 0, 1, 0, 0.665791, 0, 0.746139, 3, 0, -3)
 
-[node name="Wood7" parent="Woods" instance=ExtResource("4_m62m2")]
+[node name="Wood7" parent="Location/Woods" instance=ExtResource("4_m62m2")]
 transform = Transform3D(0.953879, 0, 0.30019, 0, 1, 0, -0.30019, 0, 0.953879, -3.06434, 0, -3)
 
-[node name="Wood4" parent="Woods" instance=ExtResource("4_m62m2")]
+[node name="Wood4" parent="Location/Woods" instance=ExtResource("4_m62m2")]
 transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -2, 0, 2)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 4, 6)
+[node name="Grass" type="Node3D" parent="Location"]
+
+[node name="Grass" parent="Location/Grass" instance=ExtResource("6_8njxo")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.3, 0.4, 3.2)
+
+[node name="Camera" type="Camera3D" parent="Location"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4, 0)
 current = true
 script = ExtResource("3_f1qku")
 
-[node name="BigTree" parent="." instance=ExtResource("5_j4lnh")]
+[node name="BigTree" parent="Location" instance=ExtResource("5_j4lnh")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4, 0, 4)
 
-[node name="Environment" parent="." instance=ExtResource("5_gom0g")]
+[node name="Environment" parent="Location" instance=ExtResource("5_gom0g")]
 
-[node name="Player" parent="." instance=ExtResource("2_0dhdr")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.435269, 0)
+[node name="Player" parent="Location" instance=ExtResource("2_0dhdr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.435269, 3)
+
+[node name="Effects" type="Node3D" parent="Location"]
+
+[node name="Snow" type="GPUParticles3D" parent="Location/Effects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+material_override = SubResource("StandardMaterial3D_1e4d6")
+amount = 100
+lifetime = 0.5
+randomness = 1.0
+fixed_fps = 60
+visibility_aabb = AABB(-6, -6, -6, 12, 12, 12)
+draw_order = 3
+transform_align = 3
+process_material = SubResource("ParticleProcessMaterial_ev1eb")
+draw_pass_1 = SubResource("QuadMesh_lgbvw")
+
+[node name="Rain" type="GPUParticles3D" parent="Location/Effects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+material_override = SubResource("StandardMaterial3D_kopnj")
+amount = 256
+sub_emitter = NodePath("../Circle")
+lifetime = 0.5
+randomness = 1.0
+fixed_fps = 60
+visibility_aabb = AABB(-5, -6, -5.1, 10, 12, 10.2)
+draw_order = 3
+transform_align = 2
+process_material = SubResource("ParticleProcessMaterial_fwkd3")
+draw_pass_1 = SubResource("QuadMesh_q27ee")
+
+[node name="Circle" type="GPUParticles3D" parent="Location/Effects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+material_override = SubResource("StandardMaterial3D_r7ueo")
+emitting = false
+amount = 512
+lifetime = 0.5
+randomness = 1.0
+fixed_fps = 60
+visibility_aabb = AABB(-5, -6, -5.1, 10, 12, 10.2)
+draw_order = 3
+transform_align = 2
+process_material = SubResource("ParticleProcessMaterial_1mrx7")
+draw_pass_1 = SubResource("PlaneMesh_vbpdq")
+
+[node name="CirclesOfRain" type="GPUParticlesCollisionBox3D" parent="Location/Effects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+size = Vector3(10, 0.1, 10)
+
+[node name="Canvas" type="CanvasLayer" parent="."]
+
+[node name="UI" type="Control" parent="Canvas"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HPBar" type="ProgressBar" parent="Canvas/UI"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 524.0
+offset_bottom = 64.0
+theme = SubResource("Theme_mfm1p")
+value = 100.0
+show_percentage = false
+
+[node name="ColorRect" type="ColorRect" parent="Canvas/UI/HPBar"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -262.5
+offset_top = -10.0
+offset_right = 262.5
+offset_bottom = -5.0
+grow_horizontal = 2
+
+[node name="ColorRect2" type="ColorRect" parent="Canvas/UI/HPBar"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -262.5
+offset_top = 5.0
+offset_right = 262.5
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="EnergyBar" type="ProgressBar" parent="Canvas/UI"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 25.0
+offset_top = 96.0
+offset_right = 360.0
+offset_bottom = 114.0
+theme = SubResource("Theme_mfnmy")
+value = 100.0
+show_percentage = false
+
+[node name="ColorRect" type="ColorRect" parent="Canvas/UI/EnergyBar"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -175.0
+offset_top = -8.0
+offset_right = 175.0
+offset_bottom = -5.0
+grow_horizontal = 2
+
+[node name="ColorRect2" type="ColorRect" parent="Canvas/UI/EnergyBar"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -175.0
+offset_top = 5.0
+offset_right = 175.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
