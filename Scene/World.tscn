@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtf3qo0e8yvpq"]
+
+[ext_resource type="PackedScene" uid="uid://8r1s76gnv6q5" path="res://Object/Player.tscn" id="2_0dhdr"]
+[ext_resource type="Script" path="res://Scripts/Camera.gd" id="3_f1qku"]
+[ext_resource type="PackedScene" uid="uid://cyahpjxwphvj1" path="res://Object/Wood.tscn" id="4_m62m2"]
+[ext_resource type="PackedScene" uid="uid://djmxdptog6aot" path="res://Scene/Environment.tscn" id="5_gom0g"]
+[ext_resource type="PackedScene" uid="uid://1go4v6ic3ybv" path="res://Object/BigTree.tscn" id="5_j4lnh"]
+
+[node name="World" type="Node"]
+
+[node name="Woods" type="Node3D" parent="."]
+
+[node name="Wood" parent="Woods" instance=ExtResource("4_m62m2")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -3, 0, 0)
+
+[node name="Wood2" parent="Woods" instance=ExtResource("4_m62m2")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, 2, 0, 0)
+
+[node name="Wood3" parent="Woods" instance=ExtResource("4_m62m2")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 3, 0, 2)
+
+[node name="Wood5" parent="Woods" instance=ExtResource("4_m62m2")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, -3)
+
+[node name="Wood6" parent="Woods" instance=ExtResource("4_m62m2")]
+transform = Transform3D(0.746139, 0, -0.665791, 0, 1, 0, 0.665791, 0, 0.746139, 3, 0, -3)
+
+[node name="Wood7" parent="Woods" instance=ExtResource("4_m62m2")]
+transform = Transform3D(0.953879, 0, 0.30019, 0, 1, 0, -0.30019, 0, 0.953879, -3.06434, 0, -3)
+
+[node name="Wood4" parent="Woods" instance=ExtResource("4_m62m2")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -2, 0, 2)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 4, 6)
+current = true
+script = ExtResource("3_f1qku")
+
+[node name="BigTree" parent="." instance=ExtResource("5_j4lnh")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4, 0, 4)
+
+[node name="Environment" parent="." instance=ExtResource("5_gom0g")]
+
+[node name="Player" parent="." instance=ExtResource("2_0dhdr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.435269, 0)
