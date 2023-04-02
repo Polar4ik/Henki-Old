@@ -1,26 +1,30 @@
 extends CharacterBody3D
 
-
 const SPEED := 2.0
 const FRICTION := 5.0
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var hp := 100
+var soulCount := 0
 var power := 100
 var canMove := true
+var final := false
 
 @onready var animatedSprite: AnimatedSprite3D = $AnimatedSprite3D
 
-
-func _ready() -> void:
-	hp = clamp(hp, 0, 1000)
+#animation
+var AnimSide = "Forward"
+var AnimState = "Idle"
 
 func _physics_process(delta: float) -> void:
+	hp = clamp(hp, 0, 100)
+	power = clamp(power, 0, 100)
+#	print(hp)
 	
 	move(delta)
 	gravitation(delta)
 	die()
-	
+	resurrection()
 	animation()
 	
 	move_and_slide()
@@ -34,7 +38,7 @@ func move(delta: float) -> void:
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 #	print(direction)
-	print(velocity.z)
+#	print(velocity.z)
 	
 	if canMove:
 		if direction:
@@ -52,14 +56,51 @@ func move(delta: float) -> void:
 
 func die() -> void:
 	if hp == 0:
-		animatedSprite.set_modulate(Color.hex(0xffffff7f))
+#		print("YA UMER")
+		animatedSprite.modulate = Color(1, 1, 1, .25)
+		final = true
+	elif hp > 0:
+		animatedSprite.modulate = Color(1, 1, 1, 1)
+		final = false
+
+func soul_absorption(cost):
+	soulCount += cost
+
+func resurrection():
+	if soulCount == 100:
+		hp = 100
+
+func okonchatelno_die():
+	queue_free()
+	var game_over = preload("res://Object/UI/game_over.tscn").instantiate()
+	G.canvas.add_child(game_over)
 
 func animation():
 	if velocity.z > 1:
-		animatedSprite.play("WalkForward")
+		AnimSide = "Forward"
+		AnimState = "Walk"
+		animatedSprite.play(AnimState + AnimSide)
 	elif velocity.z > .1:
-		animatedSprite.play("IdleForward")
-	if velocity.z < -1:
-		animatedSprite.play("WalkBack")
+		AnimSide = "Forward"
+		AnimState = "Idle"
+		animatedSprite.play(AnimState + AnimSide)
+	elif velocity.z < -1:
+		AnimSide = "Back"
+		AnimState = "Walk"
+		animatedSprite.play(AnimState + AnimSide)
 	elif velocity.z < -.1:
-		animatedSprite.play("IdleBack")
+		AnimSide = "Back"
+		AnimState = "Idle"
+		animatedSprite.play(AnimState + AnimSide)
+	
+	if velocity.x > .1 or velocity.x < -.1:
+		AnimState = "Walk"
+		animatedSprite.play(AnimState + AnimSide)
+	elif velocity.x > -.1:
+		AnimState = "Idle"
+		animatedSprite.play(AnimState + AnimSide)
+
+func _on_countdown_timeout() -> void:
+	queue_free()
+	var game_over = preload("res://Object/UI/game_over.tscn").instantiate()
+	G.canvas.add_child(game_over)

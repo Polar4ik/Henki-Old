@@ -69,7 +69,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["Player"]]
 collision_layer = 4
 collision_mask = 15
 script = ExtResource("1_7el3g")
@@ -89,3 +89,9 @@ frame_progress = 0.958697
 
 [node name="Axe" parent="Weapon" instance=ExtResource("6_2yohg")]
 transform = Transform3D(0.970905, 0.239465, 0, -0.239465, 0.970905, 0, 0, 0, 1, 0.447245, 0.1, -0.00161263)
+
+[node name="Countdown" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="timeout" from="Countdown" to="." method="_on_countdown_timeout"]
