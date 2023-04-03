@@ -166,9 +166,9 @@ grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 50
 text = "WASD - Move
-LBM - Impact
+LBM - Hit
 RBM - Magic
-"
+Esc - Exit"
 
 [node name="Location" type="Label" parent="."]
 layout_mode = 1

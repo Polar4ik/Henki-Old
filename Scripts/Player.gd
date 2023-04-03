@@ -37,9 +37,9 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func create_magic():
-	if Input.is_action_just_pressed("magic") and magicCount.size() < 1 and power > 0:
+	if Input.is_action_just_pressed("magic") and magicCount.size() < 1 and power >= 100:
 		canReloadEnergy = false
-		power -= 40
+		power -= 100
 		var magic = load("res://Object/Weapon/BulletPlayer.tscn").instantiate()
 		$MagicPosition.add_child(magic)
 		magicCount.append(magic)
@@ -89,7 +89,6 @@ func resurrection():
 		soulCount = 0
 		final = false
 
-
 func okonchatelno_die():
 	queue_free()
 	var game_over = preload("res://Object/UI/game_over.tscn").instantiate()
@@ -124,7 +123,8 @@ func animation():
 func reload_energy():
 	if canReloadEnergy and magicCount.size() < 1:
 		power += 1
+		if power == 100:
+			canReloadEnergy = false
 
 func _on_magic_calldown_timeout() -> void:
-	await magicCount.size() == 0
-	canReloadEnergy = true
+		canReloadEnergy = true

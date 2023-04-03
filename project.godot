@@ -14,6 +14,7 @@ config/name="Henki"
 run/main_scene="res://Scene/Base.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 run/max_fps=60
+boot_splash/bg_color=Color(0.0235294, 0.0235294, 0.0235294, 1)
 config/icon="res://Icon.png"
 
 [autoload]
