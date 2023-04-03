@@ -1,7 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://bql1ad5iw1rhu"]
+[gd_scene load_steps=17 format=3 uid="uid://bql1ad5iw1rhu"]
 
 [ext_resource type="Script" path="res://Scripts/Enemy/Bullet.gd" id="1_futno"]
 [ext_resource type="PackedScene" uid="uid://bi4euw6wx8guh" path="res://Assets/Model/Shell.glb" id="1_xxr1a"]
+[ext_resource type="AudioStream" uid="uid://c1bmsdpp30qau" path="res://Assets/Sound/Enemy/Bullet/sfx-fire-torch-whoosh-heavy-ignition-with-crack-and-sizzle.ogg" id="3_p2swf"]
+[ext_resource type="AudioStream" uid="uid://bfjq71ni46gdw" path="res://Assets/Sound/Enemy/Bullet/1654872026_483327169_1865324632.ogg" id="4_8qfiu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jj7q3"]
 shading_mode = 0
@@ -79,7 +81,7 @@ radius = 0.2
 [sub_resource type="SphereShape3D" id="SphereShape3D_0t2w1"]
 radius = 1.0
 
-[node name="Bullet" type="CharacterBody3D" groups=["Enemy"]]
+[node name="Bullet" type="CharacterBody3D" groups=["Bullet", "Enemy"]]
 top_level = true
 collision_layer = 8
 collision_mask = 12
@@ -118,6 +120,13 @@ collision_mask = 4
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Unichtozhit"]
 shape = SubResource("SphereShape3D_0t2w1")
+
+[node name="Create" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("3_p2swf")
+autoplay = true
+
+[node name="Die" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_8qfiu")
 
 [connection signal="body_entered" from="Kamikadze" to="." method="_on_kamikadze_body_entered"]
 [connection signal="body_entered" from="Unichtozhit" to="." method="_on_unichtozhit_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dhkco4fr1b28v"]
+[gd_scene load_steps=27 format=3 uid="uid://b4m7jfas15cam"]
 
 [ext_resource type="Script" path="res://Core/World.gd" id="1_nia64"]
 [ext_resource type="PackedScene" uid="uid://8r1s76gnv6q5" path="res://Object/Player.tscn" id="2_0dhdr"]
@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://djmxdptog6aot" path="res://Scene/Environment.tscn" id="5_gom0g"]
 [ext_resource type="Script" path="res://Scripts/Spawner.gd" id="6_squsn"]
 [ext_resource type="Script" path="res://Scripts/UI/UI.gd" id="7_eb7ek"]
-[ext_resource type="AudioStream" uid="uid://b6ee7iyj6udx5" path="res://Assets/Sound/whistlingwindstead54.mp3" id="8_kupv0"]
-[ext_resource type="AudioStream" uid="uid://h7gi3vhqnivy" path="res://Assets/Sound/3e6711da93bdc58.mp3" id="9_n2o2n"]
+[ext_resource type="AudioStream" uid="uid://b6ee7iyj6udx5" path="res://Assets/Sound/Wind.mp3" id="8_og64o"]
+[ext_resource type="AudioStream" uid="uid://h7gi3vhqnivy" path="res://Assets/Sound/Rain.mp3" id="9_ra144"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1e4d6"]
 shading_mode = 0
@@ -28,7 +28,7 @@ size = Vector2(0.1, 0.1)
 [sub_resource type="Gradient" id="Gradient_o8ul2"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_5w78i"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xrnm0"]
 gradient = SubResource("Gradient_o8ul2")
 width = 8
 height = 32
@@ -38,7 +38,7 @@ fill_to = Vector2(1, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kopnj"]
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("GradientTexture2D_5w78i")
+albedo_texture = SubResource("GradientTexture2D_xrnm0")
 texture_filter = 0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fwkd3"]
@@ -87,7 +87,7 @@ bg_color = Color(1, 1, 1, 1)
 ProgressBar/styles/background = SubResource("StyleBoxFlat_1v2x4")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_28vbp")
 
-[node name="World" type="Node"]
+[node name="Game" type="Node"]
 script = ExtResource("1_nia64")
 
 [node name="Location" type="Node3D" parent="."]
@@ -112,14 +112,12 @@ transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3, 0, 2)
 [node name="BigTree4" parent="Location/Woods" instance=ExtResource("2_7axpa")]
 transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 3, 0, -1)
 
-[node name="Grass" type="Node3D" parent="Location"]
+[node name="Environment" parent="Location" instance=ExtResource("5_gom0g")]
 
 [node name="Camera" type="Camera3D" parent="Location"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 4, 0)
 current = true
 script = ExtResource("3_f1qku")
-
-[node name="Environment" parent="Location" instance=ExtResource("5_gom0g")]
 
 [node name="Player" parent="Location" instance=ExtResource("2_0dhdr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.435269, 3)
@@ -164,6 +162,18 @@ script = ExtResource("6_squsn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, -3)
 gizmo_extents = 1.0
 script = ExtResource("6_squsn")
+
+[node name="Marker3D3" type="Marker3D" parent="Location/SpawnPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, 0.487032)
+gizmo_extents = 1.0
+script = ExtResource("6_squsn")
+
+[node name="Marker3D4" type="Marker3D" parent="Location/SpawnPoint"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.5, -3.42079)
+gizmo_extents = 1.0
+script = ExtResource("6_squsn")
+
+[node name="Sp" type="Node3D" parent="Location/SpawnPoint"]
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 
@@ -284,8 +294,7 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="TimeLibel" type="Label" parent="Canvas/UI"]
-visible = false
+[node name="Help" type="Label" parent="Canvas/UI"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -299,14 +308,48 @@ offset_bottom = -16.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 50
-text = "TIME LEFT"
+text = "WASD - Move
+LBM - Impact
+RBM - Magic
+"
 
-[node name="Zvuk" type="Node" parent="."]
+[node name="Location" type="Label" parent="Canvas/UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -159.5
+offset_top = -108.0
+offset_right = 159.5
+offset_bottom = 108.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Kaina"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Veter" type="AudioStreamPlayer" parent="Zvuk"]
-stream = ExtResource("8_kupv0")
+[node name="KillsLabel" type="Label" parent="Canvas/UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -72.0
+offset_top = 24.0
+offset_right = -32.0
+offset_bottom = 47.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 50
+text = "KILLS: count"
+
+[node name="Sound" type="Node" parent="."]
+
+[node name="Wind" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("8_og64o")
 autoplay = true
 
-[node name="Dozhd" type="AudioStreamPlayer" parent="Zvuk"]
-stream = ExtResource("9_n2o2n")
+[node name="Rain" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("9_ra144")
 autoplay = true

@@ -1,13 +1,13 @@
 extends CharacterBody3D
-signal  dieS
+signal dieS
 
 const SPEED = 1.0
 
 var canHeat := true
 var canMove := true
 
-@onready var target := get_parent().get_parent().get_parent().find_child("Player")
-@onready var targetWeapon := target.find_child("Weapon").get_child(0)
+@onready var target = G.player #get_parent().get_parent().get_parent().find_child("Player")
+@onready var targetWeapon = target.find_child("Weapon").get_child(0)
 @export var hp = 0
 @export var soulCost = 0
 
@@ -44,15 +44,18 @@ func move(delta):
 			var direction = position.direction_to(target.position) - Vector3(.2,0,.2)
 			velocity = SPEED * direction
 
-func stan():
-	print("STAN")
+func damage():
 	hp -= targetWeapon.damage
+	targetWeapon.find_child("AxeBody").play()
+	$Die.play()
 	velocity *= 0
 	state = STAN
 	heatReload()
 
 func die():
 	if hp <= 0:
+		G.kills += 1
+#		$Die.play()
 		target.soul_absorption(soulCost)
 		dieS.emit()
 		queue_free()
@@ -75,11 +78,11 @@ func _on_stan_coll_down_timeout() -> void:
 
 func _on_uron_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player"):
-		targetWeapon.hit.connect(stan)
+		targetWeapon.hit.connect(damage)
 
 func _on_uron_body_exited(body: Node3D) -> void:
 	if body.is_in_group("Player"):
-		targetWeapon.disconnect("hit",stan)
+		targetWeapon.disconnect("hit",damage)
 		state = WALK
 		curretState = WALK
 

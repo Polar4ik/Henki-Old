@@ -1,12 +1,12 @@
 extends CharacterBody3D
-signal  dieS
+signal dieS
 
 const SPEED = 1.0
 
 var canHeat := false
 
-@onready var target := get_parent().get_parent().get_parent().find_child("Player")
-@onready var targetWeapon := target.find_child("Weapon").get_child(0)
+@onready var target = G.player #get_parent().get_parent().get_parent().find_child("Player")
+@onready var targetWeapon = target.find_child("Weapon").get_child(0)
 @export var hp = 0
 @export var damage = 0
 @export var soulCost = 0
@@ -41,14 +41,18 @@ func move(delta):
 		velocity = SPEED * direction
 
 func stan():
-	print("STAN")
 	hp -= targetWeapon.damage
+	targetWeapon.find_child("AxeBody").play()
 	velocity *= 0
 	state = STAN
 	heatReload()
 
 func die():
 	if hp <= 0:
+		$AnimatedSprite3D.hide()
+		$Die.play()
+		await $Die.finished
+		G.kills += 1
 		target.soul_absorption(soulCost)
 		dieS.emit()
 		queue_free()
@@ -92,4 +96,3 @@ func _on_ataka_body_exited(body: Node3D) -> void:
 
 func _on_attack_calldown_timeout() -> void:
 	canHeat = true
-

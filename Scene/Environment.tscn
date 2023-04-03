@@ -26,7 +26,7 @@ adjustment_contrast = 1.1
 adjustment_saturation = 1.1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wnlx7"]
-size = Vector3(10, 7, 1)
+size = Vector3(10, 0.9, 1)
 
 [node name="Environment" type="Node3D"]
 
@@ -48,6 +48,7 @@ transform = Transform3D(1, 0, 0, 0, 2.98023e-08, 1, 0, -1, 2.98023e-08, 0, 4, 0)
 environment = SubResource("Environment_k6kau")
 
 [node name="Border" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Border"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 5.5)

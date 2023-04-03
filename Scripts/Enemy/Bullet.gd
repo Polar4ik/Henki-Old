@@ -1,9 +1,8 @@
 extends CharacterBody3D
 
-@onready var target = get_parent().get_parent().get_parent().get_parent().get_parent().find_child("Player")
+@onready var target = G.player #get_parent().get_parent().get_parent().get_parent().get_parent().find_child("Player")
 @onready var targetWeapon = target.find_child("Weapon").get_child(0)
 var damage := 50
-
 
 func _physics_process(delta: float) -> void:
 	if target != null:
@@ -13,9 +12,12 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
-
 func _on_kamikadze_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player"):
+		$Shell.hide()
+		$GPUParticles3D.hide()
+		$Die.play()
+		await $Die.finished
 		queue_free()
 		if body.final:
 			body.okonchatelno_die()
@@ -24,4 +26,9 @@ func _on_kamikadze_body_entered(body: Node3D) -> void:
 
 func _on_unichtozhit_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player"):
-		targetWeapon.hit.connect(func(): queue_free())
+		targetWeapon.hit.connect(func(): 
+			$Shell.hide()
+			$GPUParticles3D.hide()
+			$Die.play()
+			await $Die.finished
+			queue_free())

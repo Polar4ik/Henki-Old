@@ -36,7 +36,7 @@ animations = [{
 }]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_gpckb"]
-radius = 4.0
+radius = 2.0
 
 [node name="BatWizzard" instance=ExtResource("1_yfp68")]
 script = ExtResource("2_uica4")
@@ -50,6 +50,9 @@ autoplay = "default"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ataka" index="0"]
 shape = SubResource("SphereShape3D_gpckb")
+
+[node name="AttackCalldown" parent="." index="5"]
+wait_time = 8.0
 
 [node name="BulletPos" type="Marker3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)

@@ -10,6 +10,10 @@ var power := 100
 var canMove := true
 var final := false
 
+var canReloadEnergy = false
+
+var magicCount = []
+
 @onready var animatedSprite: AnimatedSprite3D = $AnimatedSprite3D
 
 #animation
@@ -19,6 +23,7 @@ var AnimState = "Idle"
 func _physics_process(delta: float) -> void:
 	hp = clamp(hp, 0, 100)
 	power = clamp(power, 0, 100)
+	soulCount = clamp(soulCount, 0, 100)
 #	print(hp)
 	
 	move(delta)
@@ -26,8 +31,19 @@ func _physics_process(delta: float) -> void:
 	die()
 	resurrection()
 	animation()
+	create_magic()
+	reload_energy()
 	
 	move_and_slide()
+
+func create_magic():
+	if Input.is_action_just_pressed("magic") and magicCount.size() < 1 and power > 0:
+		canReloadEnergy = false
+		power -= 40
+		var magic = load("res://Object/Weapon/BulletPlayer.tscn").instantiate()
+		$MagicPosition.add_child(magic)
+		magicCount.append(magic)
+		$MagicCalldown.start()
 
 func gravitation(delta: float) -> void:
 	if not is_on_floor():
@@ -64,10 +80,11 @@ func die() -> void:
 		final = false
 
 func soul_absorption(cost):
-	soulCount += cost
+	if final:
+		soulCount += cost
 
 func resurrection():
-	if soulCount == 100:
+	if final and soulCount >= 90:
 		hp = 100
 
 func okonchatelno_die():
@@ -76,6 +93,7 @@ func okonchatelno_die():
 	G.canvas.add_child(game_over)
 
 func animation():
+	#forward
 	if velocity.z > 1:
 		AnimSide = "Forward"
 		AnimState = "Walk"
@@ -84,7 +102,9 @@ func animation():
 		AnimSide = "Forward"
 		AnimState = "Idle"
 		animatedSprite.play(AnimState + AnimSide)
-	elif velocity.z < -1:
+	
+	#back
+	if velocity.z < -1:
 		AnimSide = "Back"
 		AnimState = "Walk"
 		animatedSprite.play(AnimState + AnimSide)
@@ -93,14 +113,15 @@ func animation():
 		AnimState = "Idle"
 		animatedSprite.play(AnimState + AnimSide)
 	
+	#x coordianate
 	if velocity.x > .1 or velocity.x < -.1:
 		AnimState = "Walk"
 		animatedSprite.play(AnimState + AnimSide)
-	elif velocity.x > -.1:
-		AnimState = "Idle"
-		animatedSprite.play(AnimState + AnimSide)
 
-func _on_countdown_timeout() -> void:
-	queue_free()
-	var game_over = preload("res://Object/UI/game_over.tscn").instantiate()
-	G.canvas.add_child(game_over)
+func reload_energy():
+	if canReloadEnergy and magicCount.size() < 1:
+		power += 1
+
+func _on_magic_calldown_timeout() -> void:
+	await magicCount.size() == 0
+	canReloadEnergy = true

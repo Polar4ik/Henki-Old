@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://0eydyr80nf14"]
+[gd_scene load_steps=8 format=3 uid="uid://0eydyr80nf14"]
 
 [ext_resource type="Texture2D" uid="uid://bovoj62to2suy" path="res://Assets/Sprites/Weapon/Axe.png" id="1_c7uor"]
 [ext_resource type="Script" path="res://Scripts/Weapon/Axe.gd" id="1_v3u26"]
 [ext_resource type="Texture2D" uid="uid://dj55jrlg2s3j6" path="res://Assets/Sprites/Weapon/ImpactLine.png" id="3_dcaw2"]
+[ext_resource type="AudioStream" uid="uid://680pab3n84e1" path="res://Assets/Sound/Axe/sword_swipe_body_20826.mp3" id="6_crn6x"]
 
 [sub_resource type="Animation" id="Animation_1f27o"]
 resource_name = "Attack"
@@ -127,7 +128,12 @@ texture_filter = 0
 texture = ExtResource("3_dcaw2")
 
 [node name="EnergyReload" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 2.0
+
+[node name="AxeImpact" type="AudioStreamPlayer" parent="."]
+
+[node name="AxeBody" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_crn6x")
 
 [connection signal="timeout" from="CollDown" to="." method="_on_reload_timeout"]
 [connection signal="timeout" from="EnergyReload" to="." method="_on_energy_reload_timeout"]
