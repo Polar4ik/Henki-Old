@@ -84,8 +84,11 @@ func soul_absorption(cost):
 		soulCount += cost
 
 func resurrection():
-	if final and soulCount >= 90:
+	if final and soulCount == 100:
 		hp = 100
+		soulCount = 0
+		final = false
+
 
 func okonchatelno_die():
 	queue_free()

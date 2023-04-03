@@ -2,9 +2,9 @@ extends Control
 
 func _process(delta: float) -> void:
 	if G.player != null:
-		$HPBar.value = G.player.hp
-		$EnergyBar.value = G.player.power
-		$SoulBar.value = G.player.soulCount
+		$HPBar.value = move_toward($HPBar.value, G.player.hp, delta * 200)
+		$EnergyBar.value = move_toward($EnergyBar.value, G.player.power, delta * 200)
+		$SoulBar.value = move_toward($SoulBar.value, G.player.soulCount, delta * 200)
 		$KillsLabel.text = "KILLS" + " " + str(G.kills)
 		if G.player.final:
 			$HPBar.hide()

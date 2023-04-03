@@ -51,7 +51,6 @@ func die():
 	if hp <= 0:
 		$AnimatedSprite3D.hide()
 		$Die.play()
-		await $Die.finished
 		G.kills += 1
 		target.soul_absorption(soulCost)
 		dieS.emit()

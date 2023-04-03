@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://b4m7jfas15cam"]
+[gd_scene load_steps=18 format=3 uid="uid://b4m7jfas15cam"]
 
 [ext_resource type="Script" path="res://Core/World.gd" id="1_nia64"]
 [ext_resource type="PackedScene" uid="uid://8r1s76gnv6q5" path="res://Object/Player.tscn" id="2_0dhdr"]
@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/Camera.gd" id="3_f1qku"]
 [ext_resource type="PackedScene" uid="uid://djmxdptog6aot" path="res://Scene/Environment.tscn" id="5_gom0g"]
 [ext_resource type="Script" path="res://Scripts/Spawner.gd" id="6_squsn"]
-[ext_resource type="Script" path="res://Scripts/UI/UI.gd" id="7_eb7ek"]
+[ext_resource type="PackedScene" uid="uid://cyf2pjiwgxu2k" path="res://Object/UI/ui.tscn" id="7_nixih"]
 [ext_resource type="AudioStream" uid="uid://b6ee7iyj6udx5" path="res://Assets/Sound/Wind.mp3" id="8_og64o"]
 [ext_resource type="AudioStream" uid="uid://h7gi3vhqnivy" path="res://Assets/Sound/Rain.mp3" id="9_ra144"]
 
@@ -54,38 +54,6 @@ sub_emitter_amount_at_collision = 1
 
 [sub_resource type="QuadMesh" id="QuadMesh_q27ee"]
 size = Vector2(0.025, 0.1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8jwo5"]
-bg_color = Color(1, 1, 1, 0)
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dju46"]
-bg_color = Color(1, 0, 0.113725, 1)
-
-[sub_resource type="Theme" id="Theme_3ur7s"]
-ProgressBar/styles/background = SubResource("StyleBoxFlat_8jwo5")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_dju46")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_etgni"]
-bg_color = Color(1, 1, 1, 0)
-border_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1f5q4"]
-bg_color = Color(0.14902, 0.67451, 0.831373, 1)
-
-[sub_resource type="Theme" id="Theme_0vi2w"]
-ProgressBar/styles/background = SubResource("StyleBoxFlat_etgni")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_1f5q4")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1v2x4"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_28vbp"]
-bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="Theme" id="Theme_mfnmy"]
-ProgressBar/styles/background = SubResource("StyleBoxFlat_1v2x4")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_28vbp")
 
 [node name="Game" type="Node"]
 script = ExtResource("1_nia64")
@@ -177,172 +145,7 @@ script = ExtResource("6_squsn")
 
 [node name="Canvas" type="CanvasLayer" parent="."]
 
-[node name="UI" type="Control" parent="Canvas"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("7_eb7ek")
-
-[node name="HPBar" type="ProgressBar" parent="Canvas/UI"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 524.0
-offset_bottom = 64.0
-theme = SubResource("Theme_3ur7s")
-value = 100.0
-show_percentage = false
-
-[node name="ColorRect" type="ColorRect" parent="Canvas/UI/HPBar"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -262.5
-offset_top = -10.0
-offset_right = 262.5
-offset_bottom = -5.0
-grow_horizontal = 2
-
-[node name="ColorRect2" type="ColorRect" parent="Canvas/UI/HPBar"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -262.5
-offset_top = 5.0
-offset_right = 262.5
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="SoulBar" type="ProgressBar" parent="Canvas/UI"]
-visible = false
-texture_filter = 1
-layout_mode = 0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 524.0
-offset_bottom = 64.0
-theme = SubResource("Theme_0vi2w")
-show_percentage = false
-
-[node name="ColorRect" type="ColorRect" parent="Canvas/UI/SoulBar"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -262.5
-offset_top = -10.0
-offset_right = 262.5
-offset_bottom = -5.0
-grow_horizontal = 2
-
-[node name="ColorRect2" type="ColorRect" parent="Canvas/UI/SoulBar"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -262.5
-offset_top = 5.0
-offset_right = 262.5
-offset_bottom = 10.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="EnergyBar" type="ProgressBar" parent="Canvas/UI"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 25.0
-offset_top = 96.0
-offset_right = 360.0
-offset_bottom = 114.0
-theme = SubResource("Theme_mfnmy")
-value = 100.0
-show_percentage = false
-
-[node name="ColorRect" type="ColorRect" parent="Canvas/UI/EnergyBar"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -175.0
-offset_top = -8.0
-offset_right = 175.0
-offset_bottom = -5.0
-grow_horizontal = 2
-
-[node name="ColorRect2" type="ColorRect" parent="Canvas/UI/EnergyBar"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -175.0
-offset_top = 5.0
-offset_right = 175.0
-offset_bottom = 8.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Help" type="Label" parent="Canvas/UI"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -80.0
-offset_top = -39.0
-offset_right = -40.0
-offset_bottom = -16.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 50
-text = "WASD - Move
-LBM - Impact
-RBM - Magic
-"
-
-[node name="Location" type="Label" parent="Canvas/UI"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -159.5
-offset_top = -108.0
-offset_right = 159.5
-offset_bottom = 108.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 50
-text = "Kaina"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="KillsLabel" type="Label" parent="Canvas/UI"]
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -72.0
-offset_top = 24.0
-offset_right = -32.0
-offset_bottom = 47.0
-grow_horizontal = 0
-theme_override_font_sizes/font_size = 50
-text = "KILLS: count"
+[node name="UI" parent="Canvas" instance=ExtResource("7_nixih")]
 
 [node name="Sound" type="Node" parent="."]
 

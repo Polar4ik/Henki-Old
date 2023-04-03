@@ -37,8 +37,6 @@ func _on_kamikadze_body_entered(body: Node3D) -> void:
 		if body.is_in_group("Bullet"):
 			$Shell.hide()
 			$GPUParticles3D.hide()
-			$Die.play()
-			await $Die.finished
 			body.queue_free()
 			G.player.magicCount.clear()
 			queue_free()
@@ -46,7 +44,5 @@ func _on_kamikadze_body_entered(body: Node3D) -> void:
 			body.hp -= 100
 			$Shell.hide()
 			$GPUParticles3D.hide()
-			$Die.play()
-			await $Die.finished
 			G.player.magicCount.clear()
 			queue_free()
